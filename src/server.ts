@@ -3,7 +3,10 @@ import { createServer } from 'http';
 import { Client } from 'pg';
 
 const dbConnection = new Client({
-  connectionString: 'postgres://postgres:tes5skyrim@localhost/pocket_campaign'
+  host: process.env.RDS_HOSTNAME,
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  port: +process.env.RDS_PORT
 });
 
 const server = createServer((request, response) => {
@@ -17,11 +20,11 @@ const server = createServer((request, response) => {
     return;
   }
 
-  if (request.url === '/decks' && request.method === 'GET') {
+  if (request.url === '/api/decks' && request.method === 'GET') {
     dbConnection
       .query('SELECT * FROM decks')
       .then(decks => {
-        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        response.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
         response.end(JSON.stringify(decks.rows));
       })
       .catch(err => {

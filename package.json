@@ -4,7 +4,8 @@
   "description": "Backend part of pocket-campaign web version",
   "main": "index.js",
   "scripts": {
-    "test": "echo empty"
+    "test": "echo empty",
+    "start": "tsc && node dist/server.js"
   },
   "author": "fikuuss",
   "license": "ISC",
